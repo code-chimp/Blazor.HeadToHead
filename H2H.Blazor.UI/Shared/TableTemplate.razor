@@ -1,0 +1,35 @@
+@typeparam TItem
+
+<table class="table">
+  <thead>
+  <tr>@TableHeader</tr>
+  </thead>
+  @if (TableFooter != null)
+  {
+    <tfoot>
+    <tr>@TableFooter</tr>
+    </tfoot>
+  }
+  <tbody>
+  @foreach (var item in Items)
+  {
+    <tr>@RowTemplate(item)</tr>
+  }
+  </tbody>
+</table>
+
+@code {
+
+  [Parameter]
+  public RenderFragment TableHeader { get; set; }
+
+  [Parameter]
+  public RenderFragment TableFooter { get; set; }
+
+  [Parameter]
+  public RenderFragment<TItem> RowTemplate { get; set; }
+
+  [Parameter]
+  public IReadOnlyList<TItem> Items { get; set; }
+
+}

@@ -1,0 +1,58 @@
+@page "/books"
+@using H2H.DataAccess.Repository.Contracts
+@inherits OwningComponentBase<IUnitOfWork>
+
+<h1>Books Page</h1>
+
+@if (books == null)
+{
+  <p>
+    <em>Loading...</em>
+  </p>
+}
+else
+{
+  <TableTemplate Items="books" Context="bookContext">
+    <TableHeader>
+      <th>Title</th>
+      <th>Description</th>
+      <th></th>
+    </TableHeader>
+    <TableFooter>
+      <td colspan="3">&copy; some rando dude</td>
+    </TableFooter>
+    <RowTemplate>
+      <td>
+        <b>@bookContext.Title</b>
+      </td>
+      <td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;">
+        @bookContext.Description
+      </td>
+      <td>
+        <button class="btn btn-primary btn-sm"
+                @onclick="() => EditBook(bookContext)">
+          Edit
+        </button>
+      </td>
+    </RowTemplate>
+  </TableTemplate>
+  <p>
+    <button class="btn btn-primary btn-lg"
+            @onclick="AddBook">
+      Add New Book
+    </button>
+  </p>
+}
+
+<BookDialog vm="viewModel"
+            Show="ShowDialog"
+            Save="SaveBook"
+            Delete="DeleteBook"
+            Close="CloseModals">
+  <HeaderContent>
+    <h3 class="modal-title" style="color:@(viewModel.Id == 0 ? "darkgreen" : "darkred");">
+      @(viewModel.Id == 0 ? "Create" : "Edit")
+      Book
+    </h3>
+  </HeaderContent>
+</BookDialog>
