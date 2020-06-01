@@ -7,26 +7,34 @@ performance differences.
 
 ## Datastore Setup
 
+Thought the easiest setup would be SQL Server running in a Docker container.  **NOTE:** If you want to go with 
+your own local SQL Server instance you will likely need to change the connection string in `appsettings.json` as
+the setup script is mapping the container to the non-standard port of __1455__.
+
+- Generate a disposable SQL Server instance in Docker and run migrations to initialize databse
 ```shell
-# generate a disposable SQL Server instance in Docker
-# and run migrations to initialize databse
 ./setup.sh
 
 # or on Windows
-.\setup.ps1
 
-# delete temporary SQL Server instance
+.\setup.ps1
+```
+- Stop and delete the temporary datastore
+
+```shell
 ./teardown.sh
 
 # or on Windows
+
 .\teardown.ps1
-
-# seed the database
-dotnet ef database update -s ./H2H.Blazor.UI/H2H.Blazor.UI.csproj -p ./H2H.DataAccess/H2H.DataAccess.csproj
-
-# NOTE: easiest way to add new migrations from the command line
+```
+- Convenience scripts to create and apply migrations
+```shell
 ./add-migration.sh <MigrationName>
+./update-db.sh
 
 # or on Windows
+
 .\add-migration.ps1 -migration <MigrationName>
+.\update-db.ps1
 ```
