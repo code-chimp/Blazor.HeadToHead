@@ -57,7 +57,11 @@ namespace H2H.Blazor.UI.Pages
 
         private async Task DeleteBook()
         {
-            @Service.Books.Remove(viewModel);
+            ShowDialog = false;
+            
+            await @Service.Books.RemoveAsync(viewModel.Id);
+            await @Service.SaveAsync();
+
             books = (List<Book>) await @Service.Books.GetAllAsync();
         }
 
