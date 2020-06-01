@@ -24,11 +24,19 @@
             </div>
 
             <div class="form-group">
-              <label for="Description">Description: </label>
+              <label for="ISBN">ISBN: </label>
               <InputText class="form-control"
-                         id="Description"
-                         placeholder="Description"
-                         @bind-Value="vm.Description"/>
+                         id="ISBN"
+                         placeholder="ISBN Number"
+                         @bind-Value="vm.ISBN"/>
+            </div>
+
+            <div class="form-group">
+              <label for="Price">Price: </label>
+              <InputNumber class="form-control"
+                           id="Price"
+                           placeholder="Price"
+                           @bind-Value="vm.Price"/>
             </div>
 
             <button type="submit" class="btn btn-primary">

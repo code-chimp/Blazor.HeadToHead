@@ -15,7 +15,8 @@ else
   <TableTemplate Items="books" Context="bookContext">
     <TableHeader>
       <th>Title</th>
-      <th>Description</th>
+      <th>ISBN</th>
+      <th>Price</th>
       <th></th>
     </TableHeader>
     <TableFooter>
@@ -25,8 +26,11 @@ else
       <td>
         <b>@bookContext.Title</b>
       </td>
-      <td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;">
-        @bookContext.Description
+      <td>
+        @bookContext.ISBN
+      </td>
+      <td>
+        @bookContext.Price
       </td>
       <td>
         <button class="btn btn-primary btn-sm"

@@ -16,12 +16,17 @@ namespace H2H.DataAccess.Repository
 
         public void Update(Book entity)
         {
-            var book = _context.Book.FirstOrDefault(_ => _.Id == entity.Id);
+            var book = _context
+                .Books
+                .FirstOrDefault(_ => _.Id == entity.Id);
 
             if (book != null)
             {
                 book.Title = entity.Title;
-                book.Description = entity.Description;
+                book.ISBN = entity.ISBN;
+                book.Price = entity.Price;
+                book.PublisherId = entity.PublisherId;
+                book.BookDetailId = entity.BookDetailId;
 
                 _context.SaveChanges();
             }
@@ -29,12 +34,17 @@ namespace H2H.DataAccess.Repository
 
         public async Task UpdateAsync(Book entity)
         {
-            var book = await _context.Book.FirstOrDefaultAsync(_ => _.Id == entity.Id);
+            var book = await _context
+                .Books
+                .FirstOrDefaultAsync(_ => _.Id == entity.Id);
 
             if (book != null)
             {
                 book.Title = entity.Title;
-                book.Description = entity.Description;
+                book.ISBN = entity.ISBN;
+                book.Price = entity.Price;
+                book.PublisherId = entity.PublisherId;
+                book.BookDetailId = entity.BookDetailId;
 
                 await _context.SaveChangesAsync();
             }

@@ -31,7 +31,7 @@ namespace H2H.Blazor.UI.Pages
             {
                 Id = book.Id,
                 Title = book.Title,
-                Description = book.Description
+                ISBN = book.ISBN
             };
 
             ShowDialog = true;

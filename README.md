@@ -26,4 +26,7 @@ dotnet ef database update -s ./H2H.Blazor.UI/H2H.Blazor.UI.csproj -p ./H2H.DataA
 
 # NOTE: easiest way to add new migrations from the command line
 ./add-migration.sh <MigrationName>
+
+# or on Windows
+.\add-migration.ps1 -migration <MigrationName>
 ```
