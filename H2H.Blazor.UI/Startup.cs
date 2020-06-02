@@ -1,4 +1,3 @@
-using H2H.Blazor.UI.Data;
 using H2H.DataAccess;
 using H2H.DataAccess.Repository;
 using H2H.DataAccess.Repository.Contracts;
@@ -29,7 +28,6 @@ namespace H2H.Blazor.UI
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

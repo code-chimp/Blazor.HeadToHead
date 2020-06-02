@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H2H.DataAccess", "H2H.DataA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H2H.Tests", "H2H.Tests\H2H.Tests.csproj", "{0C922928-24DA-4E00-8FCE-8F7FE696039D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H2H.Razor.UI", "H2H.Razor.UI\H2H.Razor.UI.csproj", "{950A7A82-2D48-4473-816A-B81F0DEFDD47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +33,9 @@ Global
 		{0C922928-24DA-4E00-8FCE-8F7FE696039D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C922928-24DA-4E00-8FCE-8F7FE696039D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C922928-24DA-4E00-8FCE-8F7FE696039D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{950A7A82-2D48-4473-816A-B81F0DEFDD47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{950A7A82-2D48-4473-816A-B81F0DEFDD47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{950A7A82-2D48-4473-816A-B81F0DEFDD47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{950A7A82-2D48-4473-816A-B81F0DEFDD47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

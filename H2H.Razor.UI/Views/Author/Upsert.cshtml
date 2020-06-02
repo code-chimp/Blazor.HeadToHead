@@ -1,0 +1,69 @@
+@model H2H.Models.Author
+
+@{
+  Layout = "_Layout";
+  var title = "Create Author";
+}
+<form method="post">
+  <div class="row p-3 border">
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" asp-for="Id"/>
+    @if (Model.Id != 0)
+    {
+      title = "Edit Author";
+    }
+    <div class="col-12 border-bottom">
+      <h2 class="text-primary">@title</h2>
+    </div>
+    <div class="col-8 pt-4">
+      <div class="form-group row">
+        <div class="col-4">
+          <label asp-for="FirstName"></label>
+        </div>
+        <div class="col-8">
+          <input type="text" class="form-control" asp-for="FirstName"/>
+          <span class="text-danger" asp-validation-for="FirstName"></span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-4">
+          <label asp-for="LastName"></label>
+        </div>
+        <div class="col-8">
+          <input type="text" class="form-control" asp-for="LastName"/>
+          <span class="text-danger" asp-validation-for="LastName"></span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-4">
+          <label asp-for="Location"></label>
+        </div>
+        <div class="col-8">
+          <input type="text" class="form-control" asp-for="Location"/>
+          <span class="text-danger" asp-validation-for="Location"></span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-4 offset-4">
+          @if (Model.Id != 0)
+          {
+            <button type="submit" class="btn btn-primary form-control">Update</button>
+          }
+          else
+          {
+            <button type="submit" class="btn btn-primary form-control">Add</button>
+          }
+        </div>
+        <div class="col-4">
+          <a class="btn btn-success form-control" asp-action="Index">Back to List</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+@section Scripts
+{
+  <partial name="_ValidationScriptsPartial"/>
+}
+

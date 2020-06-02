@@ -1,0 +1,49 @@
+@model System.Collections.Generic.IEnumerable<H2H.Models.Author>
+
+@{
+  Layout = "_Layout";
+}
+<br/>
+<br/>
+<div class="border p-4 bg-white">
+  <div class="row">
+    <div class="col-9">
+      <h2 class="text-info">Authors List</h2>
+    </div>
+    <div class="col-3" text="right">
+      <a asp-action="Upsert" class="btn btn-info form-control">Create New</a>
+    </div>
+  </div>
+  <br/>
+  <div>
+    @if (Model.Any())
+    {
+      <table class="table table-striped border">
+        <thead>
+        <tr class="table-secondary">
+          <th>Full Name</th>
+          <th>Location</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var author in Model)
+        {
+          <tr>
+            <td>@author.FullName</td>
+            <td>@author.Location</td>
+            <td>
+              <a asp-action="Upsert" asp-route-Id="@author.Id" class="btn btn-primary text-white">Edit</a>
+              <a asp-action="Delete" asp-route-Id="@author.Id" class="btn btn-danger text-white">Delete</a>
+            </td>
+          </tr>
+        }
+        </tbody>
+      </table>
+    }
+    else
+    {
+      <p><b>Please add some authors&hellip;</b></p>
+    }
+  </div>
+</div>

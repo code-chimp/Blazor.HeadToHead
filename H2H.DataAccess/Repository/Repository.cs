@@ -40,7 +40,7 @@ namespace H2H.DataAccess.Repository
                     (current, property) => current.Include(property));
             }
 
-            return query;
+            return query.AsNoTracking();
         }
 
         public T Get(int id)
