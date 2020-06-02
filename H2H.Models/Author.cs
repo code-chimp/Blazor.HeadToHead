@@ -9,11 +9,11 @@ namespace H2H.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please give us at least a first initial.")]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "We require a last name for all authors.")]
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 

@@ -1,0 +1,92 @@
+@using H2H.Blazor.UI.Models
+
+@if (Show)
+{
+  <div class="modal" tabindex="-1" role="dialog" style="display:block">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          @HeaderContent
+          <button class="close" @onclick="Close">
+            <span aria-hidden="true">X</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <EditForm Context="formContext"
+                    Model=@vm
+                    OnValidSubmit=@Save>
+            <ValidationSummary/>
+            <DataAnnotationsValidator/>
+
+            <div class="form-group">
+              <label for="Title">Title: </label>
+              <InputText class="form-control"
+                         id="Title"
+                         placeholder="Book Title"
+                         @bind-Value="vm.Book.Title"/>
+            </div>
+
+            <div class="form-group">
+              <label for="ISBN">ISBN: </label>
+              <InputText class="form-control"
+                         id="ISBN"
+                         placeholder="###-#-##-######-#"
+                         @bind-Value="vm.Book.ISBN"/>
+            </div>
+
+            <div class="form-group">
+              <label for="Price">Price: </label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
+                </div>
+                <InputNumber class="form-control"
+                             id="Price"
+                             placeholder="##.##"
+                             @bind-Value="vm.Book.Price"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="Publisher">Publisher: </label>
+              <InputSelect class="form-control"
+                           id="Publisher"
+                           @bind-Value="vm.Book.PublisherId">
+                <option value="">Select...</option>
+                @foreach (var publisher in vm.Publishers)
+                {
+                  <option value="@publisher.Value">@publisher.Text</option>
+                }
+              </InputSelect>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              @(vm.Book.Id == 0 ? "Add" : "Save")
+            </button>
+          </EditForm>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+
+@code {
+
+  [Parameter]
+  public BookEditViewModel vm { get; set; }
+
+  [Parameter]
+  public EventCallback Close { get; set; }
+
+  [Parameter]
+  public EventCallback Save { get; set; }
+
+  [Parameter]
+  public bool Show { get; set; }
+
+  [Parameter]
+  public RenderFragment HeaderContent { get; set; }
+
+
+}

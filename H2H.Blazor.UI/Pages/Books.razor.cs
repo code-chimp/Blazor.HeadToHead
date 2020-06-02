@@ -1,74 +1,160 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using H2H.Blazor.UI.Models;
 using H2H.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace H2H.Blazor.UI.Pages
 {
     public partial class Books
     {
         private List<Book> books;
-        private bool ShowDialog;
-        private Book viewModel;
+        private List<SelectListItem> publisherOptions;
+        private bool showEditDialog;
+        private BookEditViewModel editViewModel;
+        private BookDetail detailsViewModel;
+
+        private async Task RefreshBooksList()
+        {
+            books = (List<Book>) await @Service.Books
+                .GetAllAsync(includeProperties: "BookDetail,Publisher,BookAuthors.Author");
+        }
 
         protected override async Task OnInitializedAsync()
         {
-            books = (List<Book>) await @Service.Books.GetAllAsync();
+            await RefreshBooksList();
+
+            var publishers = await @Service.Publishers.GetAllAsync();
+            publisherOptions = publishers
+                .Select(_ => new SelectListItem
+                {
+                    Value = _.Id.ToString(),
+                    Text = _.Name,
+                }).ToList();
         }
 
-        private void AddBook()
+        private async Task Upsert(int? id)
         {
-            viewModel = new Book
+            var book = new BookViewModel();
+
+            if (id != null)
             {
-                Id = 0
+                var entity = await @Service.Books.GetAsync(id.Value);
+
+                if (entity != null)
+                {
+                    book.Id = entity.Id;
+                    book.Title = entity.Title;
+                    book.ISBN = entity.ISBN;
+                    book.Price = entity.Price;
+                    book.PublisherId = entity.PublisherId.ToString();
+                }
+            }
+
+            editViewModel = new BookEditViewModel
+            {
+                Book = book,
+                Publishers = publisherOptions
             };
 
-            ShowDialog = true;
-        }
-
-        private void EditBook(Book book)
-        {
-            viewModel = new Book
-            {
-                Id = book.Id,
-                Title = book.Title,
-                ISBN = book.ISBN
-            };
-
-            ShowDialog = true;
+            showEditDialog = true;
         }
 
         private async Task SaveBook()
         {
-            ShowDialog = false;
+            showEditDialog = false;
 
-            if (viewModel.Id == 0)
+            // TODO: Wire validation to the sub-model so this correctly throws up
+            var publisherId = string.IsNullOrEmpty(editViewModel.Book.PublisherId)
+                ? 0
+                : int.Parse(editViewModel.Book.PublisherId);
+
+            if (editViewModel.Book.Id == 0)
             {
-                await @Service.Books.AddAsync(viewModel);
+                var book = new Book
+                {
+                    Title = editViewModel.Book.Title,
+                    ISBN = editViewModel.Book.ISBN,
+                    Price = editViewModel.Book.Price,
+                    PublisherId = publisherId
+                };
+
+                await @Service.Books.AddAsync(book);
             }
             else
             {
-                await @Service.Books.UpdateAsync(viewModel);
+                var book = await @Service.Books.GetAsync(editViewModel.Book.Id);
+
+                book.Title = editViewModel.Book.Title;
+                book.ISBN = editViewModel.Book.ISBN;
+                book.Price = editViewModel.Book.Price;
+                book.PublisherId = publisherId;
+
+                await @Service.Books.UpdateAsync(book);
             }
 
             await @Service.SaveAsync();
 
-            books = (List<Book>) await @Service.Books.GetAllAsync();
+            await RefreshBooksList();
         }
 
-        private async Task DeleteBook()
+        private async Task Delete(int id)
         {
-            ShowDialog = false;
-            
-            await @Service.Books.RemoveAsync(viewModel.Id);
-            await @Service.SaveAsync();
+            await @Service.Books.RemoveAsync(id);
+            @Service.Save();
 
-            books = (List<Book>) await @Service.Books.GetAllAsync();
+            await RefreshBooksList();
         }
+
+        // private void Details(BookDetail bookDetail)
+        // {
+        //     detailsViewModel = new BookDetail
+        //     {
+        //         Id = bookDetail.Id,
+        //         Description = bookDetail.Description,
+        //         NumberOfChapters = bookDetail.NumberOfChapters,
+        //         NumberOfPages = bookDetail.NumberOfPages,
+        //         Weight = bookDetail.Weight
+        //     };
+        //
+        //     showDetailsDialog = true;
+        // }
+
+        // private async Task SaveDetails()
+        // {
+        //     showDetailsDialog = false;
+        //
+        //     if (detailsViewModel.Id == 0)
+        //     {
+        //         await @Service.BookDetails.AddAsync(detailsViewModel);
+        //         @Service.Save();
+        //         viewModel.BookDetailId = detailsViewModel.Id;
+        //     }
+        //     else
+        //     {
+        //         await @Service.BookDetails.UpdateAsync(detailsViewModel);
+        //     }
+        //
+        //     @Service.Save();
+        //
+        //     books = (List<Book>) await @Service.Books.GetAllAsync();
+        // }
+
+        // private async Task DeleteDetails()
+        // {
+        //     showDetailsDialog = false;
+        //
+        //     await @Service.BookDetails.RemoveAsync(detailsViewModel.Id);
+        //     await @Service.SaveAsync();
+        //
+        //     books = (List<Book>) await @Service.Books.GetAllAsync();
+        // }
 
         private void CloseModals()
         {
-            ShowDialog = false;
-            viewModel = null;
+            showEditDialog = false;
+            editViewModel = null;
         }
     }
 }

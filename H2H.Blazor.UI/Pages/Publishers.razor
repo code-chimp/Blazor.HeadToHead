@@ -1,0 +1,58 @@
+@page "/publishers"
+@using H2H.Blazor.UI.Pages.Components
+@using H2H.DataAccess.Repository.Contracts
+@inherits OwningComponentBase<IUnitOfWork>
+
+<h1>Publishers Page</h1>
+
+@if (publishers == null)
+{
+  <p>
+    <em>Loading...</em>
+  </p>
+}
+else
+{
+  <TableTemplate Items="publishers" Context="publisherContext">
+    <TableHeader>
+      <th>Name</th>
+      <th></th>
+    </TableHeader>
+    <TableFooter>
+      <td colspan="3">&copy; some rando dude</td>
+    </TableFooter>
+    <RowTemplate>
+      <td>
+        <b>@publisherContext.Name</b>
+      </td>
+      <td class="text-right">
+        <button class="btn btn-primary btn-sm"
+                @onclick="() => Edit(publisherContext)">
+          Edit
+        </button>
+        <button class="btn btn-danger btn-sm"
+                @onclick="() => Delete(publisherContext.Id)">
+          Delete
+        </button>
+      </td>
+    </RowTemplate>
+  </TableTemplate>
+  <p>
+    <button class="btn btn-primary btn-lg"
+            @onclick="Add">
+      Add New Publisher
+    </button>
+  </p>
+}
+
+<PublisherUpsert vm="viewModel"
+                 Show="showEditDialog"
+                 Save="Save"
+                 Close="CloseModals">
+  <HeaderContent>
+    <h3 class="modal-title" style="color:@(viewModel.Id == 0 ? "darkgreen" : "darkred");">
+      @(viewModel.Id == 0 ? "Create" : "Edit")
+      Publisher
+    </h3>
+  </HeaderContent>
+</PublisherUpsert>

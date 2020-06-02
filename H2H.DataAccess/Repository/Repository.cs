@@ -117,7 +117,7 @@ namespace H2H.DataAccess.Repository
         public async Task RemoveAsync(int id)
         {
             var entity = await GetAsync(id);
-            Remove(entity);
+            DbSet.Remove(entity);
         }
 
         public void Remove(T entity)

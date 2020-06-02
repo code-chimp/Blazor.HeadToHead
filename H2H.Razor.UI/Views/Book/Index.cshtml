@@ -39,11 +39,11 @@
             <td>
               @string.Join(", ", book.BookAuthors.Select(bookAuthor => bookAuthor.Author.FullName).ToArray())
             </td>
-            <td>
-              <a asp-action="Upsert" asp-route-id="@book.Id" class="btn btn-primary text-white">Edit</a>
-              <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-info text-white">Details</a>
-              <a asp-action="ManageAuthors" asp-route-id="@book.Id" class="btn btn-success text-white">Authors</a>
-              <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger text-white">Delete</a>
+            <td class="text-right">
+              <a asp-action="Upsert" asp-route-id="@book.Id" class="btn btn-primary btn-sm text-white">Edit</a>
+              <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-info btn-sm text-white">Details</a>
+              <a asp-action="ManageAuthors" asp-route-id="@book.Id" class="btn btn-success btn-sm text-white">Authors</a>
+              <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger btn-sm text-white">Delete</a>
             </td>
           </tr>
         }

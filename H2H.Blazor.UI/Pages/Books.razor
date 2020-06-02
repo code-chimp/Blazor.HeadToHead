@@ -1,4 +1,5 @@
 @page "/books"
+@using H2H.Blazor.UI.Pages.Components
 @using H2H.DataAccess.Repository.Contracts
 @inherits OwningComponentBase<IUnitOfWork>
 
@@ -17,6 +18,8 @@ else
       <th>Title</th>
       <th>ISBN</th>
       <th>Price</th>
+      <th>Publisher</th>
+      <th>Author(s)</th>
       <th></th>
     </TableHeader>
     <TableFooter>
@@ -33,30 +36,60 @@ else
         @bookContext.Price
       </td>
       <td>
+        @bookContext.Publisher.Name
+      </td>
+      <td>
+        @string.Join(", ", bookContext.BookAuthors.Select(_ => _.Author.FullName).ToArray())
+      </td>
+      <td>
         <button class="btn btn-primary btn-sm"
-                @onclick="() => EditBook(bookContext)">
+                @onclick="() => Upsert(bookContext.Id)">
           Edit
+        </button>
+        @* <button class="btn btn-info btn-sm" *@
+        @*         @onclick="() => Details(bookContext.Id)"> *@
+        @*   Details *@
+        @* </button> *@
+        @* <button class="btn btn-info btn-sm" *@
+        @*         @onclick="() => ManageAuthors(bookContext.Id)"> *@
+        @*   Authors *@
+        @* </button> *@
+        <button class="btn btn-info btn-sm"
+                @onclick="() => Delete(bookContext.Id)">
+          Delete
         </button>
       </td>
     </RowTemplate>
   </TableTemplate>
   <p>
     <button class="btn btn-primary btn-lg"
-            @onclick="AddBook">
+            @onclick="() => Upsert(null)">
       Add New Book
     </button>
   </p>
 }
 
-<BookDialog vm="viewModel"
-            Show="ShowDialog"
+<BookUpsert vm="editViewModel"
+            Show="showEditDialog"
             Save="SaveBook"
-            Delete="DeleteBook"
             Close="CloseModals">
   <HeaderContent>
-    <h3 class="modal-title" style="color:@(viewModel.Id == 0 ? "darkgreen" : "darkred");">
-      @(viewModel.Id == 0 ? "Create" : "Edit")
+    <h3 class="modal-title" style="color:@(editViewModel.Book.Id == 0 ? "darkgreen" : "darkred");">
+      @(editViewModel.Book.Id == 0 ? "Create" : "Edit")
       Book
     </h3>
   </HeaderContent>
-</BookDialog>
+</BookUpsert>
+
+
+@* <BookDetails vm="detailsViewModel" *@
+@*              Show="showDetailsDialog" *@
+@*              Save="SaveDetails" *@
+@*              Close="CloseModals"> *@
+@*   <HeaderContent> *@
+@*     <h3 class="modal-title" style="color:@(viewModel.Id == 0 ? "darkgreen" : "darkred");"> *@
+@*       @(viewModel.Id == 0 ? "Create" : "Edit") *@
+@*       Book Details *@
+@*     </h3> *@
+@*   </HeaderContent> *@
+@* </BookDetails> *@

@@ -19,7 +19,8 @@ namespace H2H.Razor.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var books = await _service.Books.GetAllAsync(includeProperties: "Publisher,BookAuthors.Author");
+            var books = await _service.Books
+                .GetAllAsync(includeProperties: "Publisher,BookAuthors.Author");
 
             return View(books);
         }

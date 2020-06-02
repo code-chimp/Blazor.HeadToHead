@@ -1,0 +1,62 @@
+@page "/authors"
+@using H2H.Blazor.UI.Pages.Components
+@using H2H.DataAccess.Repository.Contracts
+@inherits OwningComponentBase<IUnitOfWork>
+
+<h1>Authors Page</h1>
+
+@if (authors == null)
+{
+  <p>
+    <em>Loading...</em>
+  </p>
+}
+else
+{
+  <TableTemplate Items="authors" Context="authorContext">
+    <TableHeader>
+      <th>Full Name</th>
+      <th>Location</th>
+      <th></th>
+    </TableHeader>
+    <TableFooter>
+      <td colspan="3">&copy; some rando dude</td>
+    </TableFooter>
+    <RowTemplate>
+      <td>
+        <b>@authorContext.FullName</b>
+      </td>
+      <td>
+        <b>@authorContext.Location</b>
+      </td>
+      <td class="text-right">
+        <button class="btn btn-primary btn-sm"
+                @onclick="() => Edit(authorContext)">
+          Edit
+        </button>
+        <button class="btn btn-danger btn-sm"
+                @onclick="() => Delete(authorContext.Id)">
+          Delte
+        </button>
+      </td>
+    </RowTemplate>
+  </TableTemplate>
+  <p>
+    <button class="btn btn-primary btn-lg"
+            @onclick="Add">
+      Add New Author
+    </button>
+  </p>
+}
+
+<AuthorUpsert vm="viewModel"
+              Show="showEditDialog"
+              Save="Save"
+              Close="CloseModals">
+  <HeaderContent>
+    <h3 class="modal-title" style="color:@(viewModel.Id == 0 ? "darkgreen" : "darkred");">
+      @(viewModel.Id == 0 ? "Create" : "Edit")
+      Author
+    </h3>
+  </HeaderContent>
+</AuthorUpsert>
