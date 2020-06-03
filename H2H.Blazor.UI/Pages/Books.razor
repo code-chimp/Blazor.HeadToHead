@@ -3,71 +3,78 @@
 @using H2H.DataAccess.Repository.Contracts
 @inherits OwningComponentBase<IUnitOfWork>
 
-<h1>Books Page</h1>
-
-@if (books == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <TableTemplate Items="books" Context="bookContext">
-    <TableHeader>
-      <th>Title</th>
-      <th>ISBN</th>
-      <th>Price</th>
-      <th>Publisher</th>
-      <th>Author(s)</th>
-      <th></th>
-    </TableHeader>
-    <TableFooter>
-      <td colspan="3">&copy; some rando dude</td>
-    </TableFooter>
-    <RowTemplate>
-      <td>
-        <b>@bookContext.Title</b>
-      </td>
-      <td>
-        @bookContext.ISBN
-      </td>
-      <td>
-        @bookContext.Price
-      </td>
-      <td>
-        @bookContext.Publisher.Name
-      </td>
-      <td>
-        @string.Join(", ", bookContext.BookAuthors.Select(_ => _.Author.FullName).ToArray())
-      </td>
-      <td>
-        <button class="btn btn-primary btn-sm"
-                @onclick="() => Upsert(bookContext.Id)">
-          Edit
-        </button>
-        @* <button class="btn btn-info btn-sm" *@
-        @*         @onclick="() => Details(bookContext.Id)"> *@
-        @*   Details *@
-        @* </button> *@
-        @* <button class="btn btn-info btn-sm" *@
-        @*         @onclick="() => ManageAuthors(bookContext.Id)"> *@
-        @*   Authors *@
-        @* </button> *@
-        <button class="btn btn-info btn-sm"
-                @onclick="() => Delete(bookContext.Id)">
-          Delete
-        </button>
-      </td>
-    </RowTemplate>
-  </TableTemplate>
-  <p>
-    <button class="btn btn-primary btn-lg"
-            @onclick="() => Upsert(null)">
-      Add New Book
-    </button>
-  </p>
-}
+<div class="border p-4 bg-white">
+  <div class="row">
+    <div class="col-8">
+      <h2 class="text-info">Book List</h2>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-info form-control"
+              @onclick="() => Upsert(null)">
+        Create New
+      </button>
+    </div>
+  </div>
+  <br/>
+  <div>
+    @if (books == null)
+    {
+      <p>
+        <em>Loading...</em>
+      </p>
+    }
+    else
+    {
+      <TableTemplate Items="books" Context="bookContext">
+        <TableHeader>
+          <th>Title</th>
+          <th>ISBN</th>
+          <th>Price</th>
+          <th>Publisher</th>
+          <th>Author(s)</th>
+          <th></th>
+        </TableHeader>
+        <TableFooter>
+          <td colspan="6">&copy; some rando dude</td>
+        </TableFooter>
+        <RowTemplate>
+          <td>
+            <b>@bookContext.Title</b>
+          </td>
+          <td>
+            @bookContext.ISBN
+          </td>
+          <td>
+            @bookContext.Price
+          </td>
+          <td>
+            @bookContext.Publisher.Name
+          </td>
+          <td>
+            @string.Join(", ", bookContext.BookAuthors.Select(_ => _.Author.FullName).ToArray())
+          </td>
+          <td>
+            <button class="btn btn-primary btn-sm"
+                    @onclick="() => Upsert(bookContext.Id)">
+              Edit
+            </button>
+            <button class="btn btn-info btn-sm"
+                    @onclick="() => Details(bookContext.Id)">
+              Details
+            </button>
+            <button class="btn btn-success btn-sm">
+              Authors
+            </button>
+            <button class="btn btn-danger btn-sm"
+                    @onclick="() => Delete(bookContext.Id)">
+              Delete
+            </button>
+          </td>
+        </RowTemplate>
+      </TableTemplate>
+    }
+  </div>
+</div>
 
 <BookUpsert vm="editViewModel"
             Show="showEditDialog"
@@ -81,15 +88,14 @@ else
   </HeaderContent>
 </BookUpsert>
 
-
-@* <BookDetails vm="detailsViewModel" *@
-@*              Show="showDetailsDialog" *@
-@*              Save="SaveDetails" *@
-@*              Close="CloseModals"> *@
-@*   <HeaderContent> *@
-@*     <h3 class="modal-title" style="color:@(viewModel.Id == 0 ? "darkgreen" : "darkred");"> *@
-@*       @(viewModel.Id == 0 ? "Create" : "Edit") *@
-@*       Book Details *@
-@*     </h3> *@
-@*   </HeaderContent> *@
-@* </BookDetails> *@
+<BookDetailsUpsert vm="detailsViewModel"
+                   Show="showBookDetailsDialog"
+                   Save="SaveDetails"
+                   Close="CloseModals">
+  <HeaderContent>
+    <h3 class="modal-title" style="color:@(detailsViewModel.BookDetail.Id == 0 ? "darkgreen" : "darkred");">
+      @(detailsViewModel.BookDetail.Id == 0 ? "Create" : "Edit")
+      Book Details
+    </h3>
+  </HeaderContent>
+</BookDetailsUpsert>

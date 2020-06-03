@@ -3,47 +3,55 @@
 @using H2H.DataAccess.Repository.Contracts
 @inherits OwningComponentBase<IUnitOfWork>
 
-<h1>Publishers Page</h1>
-
-@if (publishers == null)
-{
-  <p>
-    <em>Loading...</em>
-  </p>
-}
-else
-{
-  <TableTemplate Items="publishers" Context="publisherContext">
-    <TableHeader>
-      <th>Name</th>
-      <th></th>
-    </TableHeader>
-    <TableFooter>
-      <td colspan="3">&copy; some rando dude</td>
-    </TableFooter>
-    <RowTemplate>
-      <td>
-        <b>@publisherContext.Name</b>
-      </td>
-      <td class="text-right">
-        <button class="btn btn-primary btn-sm"
-                @onclick="() => Edit(publisherContext)">
-          Edit
-        </button>
-        <button class="btn btn-danger btn-sm"
-                @onclick="() => Delete(publisherContext.Id)">
-          Delete
-        </button>
-      </td>
-    </RowTemplate>
-  </TableTemplate>
-  <p>
-    <button class="btn btn-primary btn-lg"
-            @onclick="Add">
-      Add New Publisher
-    </button>
-  </p>
-}
+<div class="border p-4 bg-white">
+  <div class="row">
+    <div class="col-8">
+      <h2 class="text-info">Publishers List</h2>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-info form-control"
+              @onclick="Add">
+        Create New
+      </button>
+    </div>
+  </div>
+  <br/>
+  <div>
+    @if (publishers == null)
+    {
+      <p>
+        <em>Loading...</em>
+      </p>
+    }
+    else
+    {
+      <TableTemplate Items="publishers" Context="publisherContext">
+        <TableHeader>
+          <th>Name</th>
+          <th></th>
+        </TableHeader>
+        <TableFooter>
+          <td colspan="2">&copy; some rando dude</td>
+        </TableFooter>
+        <RowTemplate>
+          <td>
+            <b>@publisherContext.Name</b>
+          </td>
+          <td class="text-right">
+            <button class="btn btn-primary btn-sm"
+                    @onclick="() => Edit(publisherContext)">
+              Edit
+            </button>
+            <button class="btn btn-danger btn-sm"
+                    @onclick="() => Delete(publisherContext.Id)">
+              Delete
+            </button>
+          </td>
+        </RowTemplate>
+      </TableTemplate>
+    }
+  </div>
+</div>
 
 <PublisherUpsert vm="viewModel"
                  Show="showEditDialog"

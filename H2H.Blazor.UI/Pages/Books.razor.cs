@@ -12,8 +12,9 @@ namespace H2H.Blazor.UI.Pages
         private List<Book> books;
         private List<SelectListItem> publisherOptions;
         private bool showEditDialog;
+        private bool showBookDetailsDialog;
         private BookEditViewModel editViewModel;
-        private BookDetail detailsViewModel;
+        private BookDetailsViewModel detailsViewModel;
 
         private async Task RefreshBooksList()
         {
@@ -107,54 +108,52 @@ namespace H2H.Blazor.UI.Pages
             await RefreshBooksList();
         }
 
-        // private void Details(BookDetail bookDetail)
-        // {
-        //     detailsViewModel = new BookDetail
-        //     {
-        //         Id = bookDetail.Id,
-        //         Description = bookDetail.Description,
-        //         NumberOfChapters = bookDetail.NumberOfChapters,
-        //         NumberOfPages = bookDetail.NumberOfPages,
-        //         Weight = bookDetail.Weight
-        //     };
-        //
-        //     showDetailsDialog = true;
-        // }
+        private async Task Details(int id)
+        {
+            var book = await @Service.Books.GetAsync(id);
 
-        // private async Task SaveDetails()
-        // {
-        //     showDetailsDialog = false;
-        //
-        //     if (detailsViewModel.Id == 0)
-        //     {
-        //         await @Service.BookDetails.AddAsync(detailsViewModel);
-        //         @Service.Save();
-        //         viewModel.BookDetailId = detailsViewModel.Id;
-        //     }
-        //     else
-        //     {
-        //         await @Service.BookDetails.UpdateAsync(detailsViewModel);
-        //     }
-        //
-        //     @Service.Save();
-        //
-        //     books = (List<Book>) await @Service.Books.GetAllAsync();
-        // }
+            if (book != null)
+            {
+                detailsViewModel = new BookDetailsViewModel
+                {
+                    Book = book,
+                    BookDetail = book.BookDetailId == null
+                        ? new BookDetail()
+                        : @Service.BookDetails.Get(book.BookDetailId.Value)
+                };
 
-        // private async Task DeleteDetails()
-        // {
-        //     showDetailsDialog = false;
-        //
-        //     await @Service.BookDetails.RemoveAsync(detailsViewModel.Id);
-        //     await @Service.SaveAsync();
-        //
-        //     books = (List<Book>) await @Service.Books.GetAllAsync();
-        // }
+                showBookDetailsDialog = true;
+            }
+        }
+
+        private async Task SaveDetails()
+        {
+            showBookDetailsDialog = false;
+
+            if (detailsViewModel.BookDetail.Id == 0)
+            {
+                await @Service.BookDetails.AddAsync(detailsViewModel.BookDetail);
+                @Service.Save();
+
+                detailsViewModel.Book.BookDetailId = detailsViewModel.BookDetail.Id;
+                await @Service.Books.UpdateAsync(detailsViewModel.Book);
+            }
+            else
+            {
+                await @Service.BookDetails.UpdateAsync(detailsViewModel.BookDetail);
+            }
+
+            @Service.Save();
+
+            await RefreshBooksList();
+        }
 
         private void CloseModals()
         {
             showEditDialog = false;
+            showBookDetailsDialog = false;
             editViewModel = null;
+            detailsViewModel = null;
         }
     }
 }
