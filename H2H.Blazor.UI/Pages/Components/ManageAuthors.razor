@@ -1,0 +1,114 @@
+@using H2H.Models
+@using H2H.Blazor.UI.Models
+
+@if (Show)
+{
+  <div class="modal" tabindex="-1" role="dialog" style="display:block">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Manage Authors</h3>
+          <button class="close" @onclick="Close">
+            <span aria-hidden="true">X</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6 form-group">
+              <EditForm class="row"
+                        Context="formContext"
+                        Model=@vm
+                        OnValidSubmit=@Save>
+
+                <div class="col-12">
+                  <ValidationSummary/>
+                  <DataAnnotationsValidator/>
+                </div>
+
+                <div class="col-4">
+                  <label for="Book">Book:</label>
+                </div>
+                <div class="col-8">
+                  <InputText class="form-control"
+                             id="Book"
+                             disabled
+                             @bind-Value="vm.Book.Title"/>
+                </div>
+
+                <div class="col-4">
+                  <label for="Authors">Author Name:</label>
+                </div>
+                <div class="col-8">
+                  <InputSelect class="form-control"
+                               id="Authors"
+                               disabled="@(!vm.Authors.Any())"
+                               @bind-Value="vm.BookAuthorVM.AuthorId">
+                    <option value="">Select...</option>
+                    @foreach (var author in vm.Authors)
+                    {
+                      <option value="@author.Value">@author.Text</option>
+                    }
+                  </InputSelect>
+                </div>
+
+                <div class="col-4 offset-4 text-left">
+                  <button class="btn btn-primary btn-sm form-control"
+                          disabled="@(!vm.Authors.Any())"
+                          @onclick="Save">
+                    Associate
+                  </button>
+                </div>
+                <div class="col-4 text-right">
+                  <button class="btn btn-success btn-sm form-control"
+                          @onclick="Close">
+                    Done
+                  </button>
+                </div>
+
+              </EditForm>
+            </div>
+            <div class="col-6">
+              <div class="row text-right">
+                <div class="col-12 text-right text-primary">
+                  <h5>Authors Associated to this Book</h5>
+                </div>
+              </div>
+
+              @foreach (var bookAuthor in vm.BookAuthors)
+              {
+                <div class="row pb-2">
+                  <div class="col-8 text-right">@bookAuthor.Author.FullName</div>
+                  <div class="col-4">
+                    <button class="btn btn-danger btn-sm form-control"
+                            @onclick="@(() => Remove.InvokeAsync(bookAuthor.AuthorId))">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+@code {
+
+  [Parameter]
+  public BookAuthorsViewModel vm { get; set; }
+
+  [Parameter]
+  public EventCallback Close { get; set; }
+
+  [Parameter]
+  public EventCallback<int> Remove { get; set; }
+
+  [Parameter]
+  public EventCallback Save { get; set; }
+
+  [Parameter]
+  public bool Show { get; set; }
+
+}

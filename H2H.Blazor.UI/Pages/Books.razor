@@ -62,7 +62,8 @@
                     @onclick="() => Details(bookContext.Id)">
               Details
             </button>
-            <button class="btn btn-success btn-sm">
+            <button class="btn btn-success btn-sm"
+                    @onclick="() => ManageAuthors(bookContext.Id)">
               Authors
             </button>
             <button class="btn btn-danger btn-sm"
@@ -76,26 +77,32 @@
   </div>
 </div>
 
-<BookUpsert vm="editViewModel"
+<BookUpsert vm="editVM"
             Show="showEditDialog"
             Save="SaveBook"
             Close="CloseModals">
   <HeaderContent>
-    <h3 class="modal-title" style="color:@(editViewModel.Book.Id == 0 ? "darkgreen" : "darkred");">
-      @(editViewModel.Book.Id == 0 ? "Create" : "Edit")
+    <h3 class="modal-title" style="color:@(editVM.Book.Id == 0 ? "darkgreen" : "darkred");">
+      @(editVM.Book.Id == 0 ? "Create" : "Edit")
       Book
     </h3>
   </HeaderContent>
 </BookUpsert>
 
-<BookDetailsUpsert vm="detailsViewModel"
+<BookDetailsUpsert vm="detailsVM"
                    Show="showBookDetailsDialog"
                    Save="SaveDetails"
                    Close="CloseModals">
   <HeaderContent>
-    <h3 class="modal-title" style="color:@(detailsViewModel.BookDetail.Id == 0 ? "darkgreen" : "darkred");">
-      @(detailsViewModel.BookDetail.Id == 0 ? "Create" : "Edit")
+    <h3 class="modal-title" style="color:@(detailsVM.BookDetail.Id == 0 ? "darkgreen" : "darkred");">
+      @(detailsVM.BookDetail.Id == 0 ? "Create" : "Edit")
       Book Details
     </h3>
   </HeaderContent>
 </BookDetailsUpsert>
+
+<ManageAuthors vm="bookAuthorsVM"
+               Show="showManageAuthorsDialog"
+               Remove="RemoveAuthor"
+               Save="SaveAuthor"
+               Close="CloseModals"/>

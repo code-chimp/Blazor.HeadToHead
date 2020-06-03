@@ -6,6 +6,6 @@ namespace H2H.Blazor.UI.Models
     public class BookEditViewModel
     {
         public BookViewModel Book { get; set; }
-        public List<SelectListItem> Publishers { get; set; }
+        public IEnumerable<SelectListItem> Publishers { get; set; }
     }
 }
