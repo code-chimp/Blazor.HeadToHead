@@ -16,14 +16,20 @@ namespace H2H.DataAccess
         public DbSet<BookDetail> BookDetails { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
-        
+
         // Views
         public DbSet<BookDetailsFromView> BookDetailsFromViews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new AuthorConfig());
+            modelBuilder.ApplyConfiguration(new CategoryConfig());
+            modelBuilder.ApplyConfiguration(new PublisherConfig());
+
+            modelBuilder.ApplyConfiguration(new BookConfig());
+            modelBuilder.ApplyConfiguration(new BookDetailConfig());
             modelBuilder.ApplyConfiguration(new BookAuthorConfig());
-            
+
             // Views
             modelBuilder.Entity<BookDetailsFromView>()
                 .HasNoKey()

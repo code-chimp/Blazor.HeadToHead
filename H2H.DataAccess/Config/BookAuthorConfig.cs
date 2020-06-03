@@ -20,6 +20,24 @@ namespace H2H.DataAccess.Config
                 .HasOne(_ => _.Author)
                 .WithMany(_ => _.BookAuthors)
                 .HasForeignKey(_ => _.AuthorId);
+
+            builder.HasData(
+                new BookAuthor
+                {
+                    AuthorId = 3,
+                    BookId = 1
+                },
+                new BookAuthor
+                {
+                    AuthorId = 1,
+                    BookId = 3
+                },
+                new BookAuthor
+                {
+                    AuthorId = 2,
+                    BookId = 3
+                }
+            );
         }
     }
 }
