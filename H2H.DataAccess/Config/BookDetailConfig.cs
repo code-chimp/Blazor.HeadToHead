@@ -15,7 +15,7 @@ namespace H2H.DataAccess.Config
                     Id = 1,
                     NumberOfChapters = 12,
                     NumberOfPages = 218,
-                    Weight = 0.73f,
+                    Weight = 0.73,
                     Description = "Lovely tome about the thing you wanted to read"
                 }
             );

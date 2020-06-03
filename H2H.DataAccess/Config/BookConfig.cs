@@ -14,7 +14,7 @@ namespace H2H.DataAccess.Config
                     Id = 1,
                     Title = "Book #1",
                     ISBN = "999-88-3456-000",
-                    Price = 22.15f,
+                    Price = 22.15,
                     BookDetailId = 1,
                     PublisherId = 1
                 },
@@ -23,7 +23,7 @@ namespace H2H.DataAccess.Config
                     Id = 2,
                     Title = "Book #2",
                     ISBN = "999-88-3456-018",
-                    Price = 18.33f,
+                    Price = 18.33,
                     PublisherId = 2
                 },
                 new Book
@@ -31,7 +31,7 @@ namespace H2H.DataAccess.Config
                     Id = 3,
                     Title = "Book #3",
                     ISBN = "999-88-3456-120",
-                    Price = 14.12f,
+                    Price = 14.12,
                     PublisherId = 3
                 }
             );

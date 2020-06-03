@@ -26,8 +26,8 @@ namespace H2H.DataAccess
             modelBuilder.ApplyConfiguration(new CategoryConfig());
             modelBuilder.ApplyConfiguration(new PublisherConfig());
 
-            modelBuilder.ApplyConfiguration(new BookConfig());
             modelBuilder.ApplyConfiguration(new BookDetailConfig());
+            modelBuilder.ApplyConfiguration(new BookConfig());
             modelBuilder.ApplyConfiguration(new BookAuthorConfig());
 
             // Views
