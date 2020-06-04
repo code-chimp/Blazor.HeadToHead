@@ -230,13 +230,12 @@ namespace H2H.Blazor.UI.Pages
 
             if (!string.IsNullOrEmpty(authorId) && bookId != 0)
             {
-                await @Service.BookAuthors.AddAsync(
-                    new BookAuthor
-                    {
-                        BookId = bookId,
-                        AuthorId = int.Parse(authorId)
-                    }
-                );
+                var bookAuthor = new BookAuthor
+                {
+                    BookId = bookId,
+                    AuthorId = int.Parse(authorId)
+                };
+                await @Service.BookAuthors.AddAsync(bookAuthor);
                 @Service.Save();
 
                 bookAuthorsVM.Authors = bookAuthorsVM.Authors

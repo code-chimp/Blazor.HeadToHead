@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace H2H.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200602192256_AlterCategoriesTable")]
-    partial class AlterCategoriesTable
+    [Migration("20200604044118_FreshSetup")]
+    partial class FreshSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,29 @@ namespace H2H.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "J.R.R.",
+                            LastName = "Tolkien",
+                            Location = "London, GB"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FirstName = "George R.R.",
+                            LastName = "Martin",
+                            Location = "Not Writing"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FirstName = "Stephen",
+                            LastName = "King",
+                            Location = "Derry, ME"
+                        });
                 });
 
             modelBuilder.Entity("H2H.Models.Book", b =>
@@ -77,6 +100,33 @@ namespace H2H.DataAccess.Migrations
                     b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BookDetailId = 1,
+                            ISBN = "999-88-3456-000",
+                            Price = 22.149999999999999,
+                            PublisherId = 1,
+                            Title = "Book #1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ISBN = "999-88-3456-018",
+                            Price = 18.329999999999998,
+                            PublisherId = 2,
+                            Title = "Book #2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ISBN = "999-88-3456-120",
+                            Price = 14.119999999999999,
+                            PublisherId = 3,
+                            Title = "Book #3"
+                        });
                 });
 
             modelBuilder.Entity("H2H.Models.BookAuthor", b =>
@@ -92,6 +142,23 @@ namespace H2H.DataAccess.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("BookAuthors");
+
+                    b.HasData(
+                        new
+                        {
+                            BookId = 1,
+                            AuthorId = 3
+                        },
+                        new
+                        {
+                            BookId = 3,
+                            AuthorId = 1
+                        },
+                        new
+                        {
+                            BookId = 3,
+                            AuthorId = 2
+                        });
                 });
 
             modelBuilder.Entity("H2H.Models.BookDetail", b =>
@@ -117,6 +184,16 @@ namespace H2H.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BookDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Lovely tome about the thing you wanted to read",
+                            NumberOfChapters = 12,
+                            NumberOfPages = 218,
+                            Weight = 0.72999999999999998
+                        });
                 });
 
             modelBuilder.Entity("H2H.Models.Category", b =>
@@ -133,6 +210,23 @@ namespace H2H.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Young Adult (YA)"
+                        });
                 });
 
             modelBuilder.Entity("H2H.Models.Publisher", b =>
@@ -149,6 +243,23 @@ namespace H2H.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Publishers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Wackt"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Cyman and Feister"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "O'Really"
+                        });
                 });
 
             modelBuilder.Entity("H2H.Models.Book", b =>

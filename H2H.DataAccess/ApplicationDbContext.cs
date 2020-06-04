@@ -17,9 +17,6 @@ namespace H2H.DataAccess
         public DbSet<Category> Categories { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
 
-        // Views
-        public DbSet<BookDetailsFromView> BookDetailsFromViews { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AuthorConfig());
@@ -29,11 +26,6 @@ namespace H2H.DataAccess
             modelBuilder.ApplyConfiguration(new BookDetailConfig());
             modelBuilder.ApplyConfiguration(new BookConfig());
             modelBuilder.ApplyConfiguration(new BookAuthorConfig());
-
-            // Views
-            modelBuilder.Entity<BookDetailsFromView>()
-                .HasNoKey()
-                .ToView("GetOnlyBookDetails");
         }
     }
 }
