@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using H2H.Blazor.UI.Models;
 using H2H.Models;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace H2H.Blazor.UI.Pages

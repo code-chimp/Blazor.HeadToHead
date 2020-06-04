@@ -1,8 +1,5 @@
-using System.Linq;
-using System.Threading.Tasks;
 using H2H.DataAccess.Repository.Contracts;
 using H2H.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace H2H.DataAccess.Repository
 {
